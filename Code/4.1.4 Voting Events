@@ -1,0 +1,69 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+contract Voting {
+    // Define the Proposal struct
+    struct Proposal {
+        address target;      // Target address of the proposal
+        bytes data;          // Data to send when the proposal is executed
+        uint256 yesCount;    // Number of yes votes
+        uint256 noCount;     // Number of no votes
+        mapping(address => bool) hasVoted; // Tracks if an address has voted
+        mapping(address => bool) votes;    // Tracks the vote of each address (true = yes, false = no)
+    }
+
+    // Public array to store proposals
+    Proposal[] public proposals;
+
+    // Define the events
+    event ProposalCreated(uint256 proposalId); // ProposalCreated event
+    event VoteCast(uint256 proposalId, address voter); // VoteCast event
+
+    // External function to create a new proposal
+    function newProposal(address _target, bytes memory _data) external {
+        proposals.push();
+        Proposal storage proposal = proposals[proposals.length - 1];
+        proposal.target = _target;
+        proposal.data = _data;
+
+        // Emit the ProposalCreated event with the ID of the new proposal
+        emit ProposalCreated(proposals.length - 1);
+    }
+
+    // External function to cast or change a vote on a proposal
+    function castVote(uint256 proposalId, bool support) external {
+        require(proposalId < proposals.length, "Invalid proposal ID!");
+
+        // Reference the specific proposal by its ID
+        Proposal storage proposal = proposals[proposalId];
+
+        // Check if the voter has already voted
+        if (proposal.hasVoted[msg.sender]) {
+            // If the voter already voted, adjust the vote counts based on their previous choice
+            if (proposal.votes[msg.sender] && !support) {
+                // Changing from yes to no
+                proposal.yesCount -= 1;
+                proposal.noCount += 1;
+            } else if (!proposal.votes[msg.sender] && support) {
+                // Changing from no to yes
+                proposal.noCount -= 1;
+                proposal.yesCount += 1;
+            }
+        } else {
+            // If the voter hasn't voted yet, increment the relevant vote count
+            if (support) {
+                proposal.yesCount += 1;
+            } else {
+                proposal.noCount += 1;
+            }
+            // Mark the voter as having voted
+            proposal.hasVoted[msg.sender] = true;
+        }
+
+        // Update the voter's choice in the mapping
+        proposal.votes[msg.sender] = support;
+
+        // Emit the VoteCast event with the proposal ID and voter's address
+        emit VoteCast(proposalId, msg.sender);
+    }
+}
