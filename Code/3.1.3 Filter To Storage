@@ -1,0 +1,16 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+contract Contract {
+    // Public dynamic-sized array to store even numbers
+    uint[] public evenNumbers;
+
+    // External function to filter even numbers from the input array
+    function filterEven(uint[] memory numbers) external {
+        for (uint i = 0; i < numbers.length; i++) {
+            if (numbers[i] % 2 == 0) { // Check if the number is even
+                evenNumbers.push(numbers[i]); // Push the even number to the evenNumbers array
+            }
+        }
+    }
+}
