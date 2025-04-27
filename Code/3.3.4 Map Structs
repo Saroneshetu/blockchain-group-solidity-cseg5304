@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+contract Contract {
+    struct User {
+        uint256 balance;  // Balance of the user
+        bool isActive;    // Indicates whether the user is active
+    }
+
+    // Public mapping to map an address to a User struct
+    mapping(address => User) public users;
+
+    // External function to create a new user
+    function createUser() external {
+        require(!users[msg.sender].isActive, "User already exists and is active!");
+        
+        // Create a new user and initialize fields
+        users[msg.sender] = User(100, true);  // 100 tokens and active status
+    }
+}
