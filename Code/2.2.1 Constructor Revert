@@ -1,0 +1,16 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+contract Contract {
+    // State variable to store the address of the contract owner
+    address public owner;
+
+    // Payable constructor to require a 1 Ether deposit during deployment
+    constructor() payable {
+        require(msg.value >= 1 ether, "A minimum of 1 Ether is required."); // Ensure at least 1 Ether is sent
+        owner = msg.sender; // Set the deployer as the owner
+    }
+
+    // Function to receive Ether without calldata
+    receive() external payable {}
+}
