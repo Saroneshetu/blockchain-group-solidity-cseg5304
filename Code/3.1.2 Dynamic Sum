@@ -1,0 +1,13 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+contract Contract {
+    // Pure, external function to calculate the sum of a dynamic-size array
+    function sum(uint[] memory numbers) external pure returns (uint) {
+        uint total = 0; // Initialize total to 0
+        for (uint i = 0; i < numbers.length; i++) {
+            total += numbers[i]; // Add each element of the array to total
+        }
+        return total; // Return the total sum
+    }
+}
