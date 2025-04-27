@@ -1,0 +1,12 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+contract Contract {
+    // Public address state variable to store the owner's address
+    address public owner;
+
+    // Constructor to set the owner as the deployer of the contract
+    constructor() {
+        owner = msg.sender;
+    }
+}
