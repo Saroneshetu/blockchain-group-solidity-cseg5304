@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+contract Contract {
+	// Enum to define connection types
+	enum ConnectionTypes { 
+		Unacquainted,
+		Friend,
+		Family
+	}
+    
+    // Public mapping to store connections
+    mapping(address => mapping(address => ConnectionTypes)) public connections;
+
+    // External function to create a connection
+    function connectWith(address _other, ConnectionTypes _connectionType) external {
+        connections[msg.sender][_other] = _connectionType; // Establish connection
+    }
+}
