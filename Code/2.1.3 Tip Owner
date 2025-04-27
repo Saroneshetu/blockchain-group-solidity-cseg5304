@@ -1,0 +1,23 @@
+                                                                                                 // SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+contract Contract {
+    // Public address state variable to store the owner's address
+    address public owner;
+
+    // Constructor to set the owner as the deployer of the contract
+    constructor() {
+        owner = msg.sender;
+    }
+
+    // Public payable function to send tips to the owner
+    function tip() public payable {
+        require(msg.value > 0, "Tip must be greater than zero."); // Ensure a positive tip amount
+
+        (bool success, ) = owner.call{value: msg.value}(""); // Transfer Ether to the owner
+        require(success, "Failed to send Ether to the owner.");
+    }
+
+    // Function to receive Ether without calldata
+    receive() external payable {}
+}
