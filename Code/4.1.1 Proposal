@@ -1,0 +1,29 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+contract Voting {
+    // Define the Proposal struct
+    struct Proposal {
+        address target;      // Target address of the proposal
+        bytes data;      // Calldata to send when the proposal is executed
+        uint256 yesCount;    // Number of yes Count
+        uint256 noCount;     // Number of no count
+    }
+
+    // Public array to store proposals
+    Proposal[] public proposals;
+
+    // External function to create a new proposal
+    function newProposal(address _target, bytes memory _data) external {
+        // Create a new proposal with the provided arguments
+        Proposal memory proposal = Proposal({
+            target: _target,
+            data: _data,
+            yesCount: 0,   // Initialize yes count to 0
+            noCount: 0    // Initialize no count to 0
+        });
+
+        // Add the new proposal to the proposals array
+        proposals.push(proposal);
+    }
+}
