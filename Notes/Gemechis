@@ -1,0 +1,134 @@
+Smart Contracts Overview
+
+Notes
+
+The amount of gas is static to the opcodes used. What it meant is that the amount of gas is deterministically calculated based on the opcodes used. For simple opcodes, like ADD or MUL the gas amount is a fixed amount. For more complicated opcodes, like SSTORE, there are several factors that go into the gas calculation and there are even gas refunds for clearing of a storage slot.
+
+Things to do when deploying a contract
+1. Compile your solidity to bytecode
+2. send a transaction containing the bytecode to an EVM (Etherium Virtual Machine) node
+3. the node calculates an address for your new contract.
+
+Ether is the native currency which we use to pay for gas in Etherium.
+
+Key Takeaways from the video about transactions
+1. Transactions begin at an EOA (Externally Owned Account).
+2. Transactions occur sequentially.
+3. Transactions set a gas limit.
+4. Transactions send calldata, targeting a contract method.
+5. Similarly smart contracts can call each other within the one transaction.
+
+Solidity Value Types
+uint is an Unsigned Integer which is a number without a sign. uint is an alias for uint256.
+int is an integer. int is an alias for int256.
+bool is a boolean. The default value for a Boolean is false.
+Enum is defining a set of options for a value by name.
+
+Storage Variables
+These variables are stored in a contract's permanent data storage on the blockchain. When we modify a storage variable in a transaction, the updated value becomes globally accessible for subsequent reads and interactions.
+
+String Literal
+A string literal can be stored in both the bytes and string types:
+	bytes msg1 = "Hello World"; 
+	string msg2 = "Hello World";
+It is recommended to use string since it will be easier to read the values from the blockchain storage from the outside (like for a front-end application).
+If the string is shorter than 32 bytes, it is more efficient to store it in a fixed-size byte array like bytes32. This simplifies the computation since the memory is allocated ahead of time. On the other hand, both string and bytes will allocate their memory dynamically depending on the size of the string.
+
+Key takeaways about storage slots
+Storage slots
+1. variables stored in contract scope allocate a storage slot (except for constant).
+2. Slots are 32 bytes (0x1 means 0x000....001).
+3. Solidity stores variables contiguously (0x0, 0x1, etc...).
+4. reading/writing to storage is relatively super expensive to other opcodes. 
+5. variables can be packed together, automatically or manually.
+
+Functions
+The constructor function is invoked only once during the contract's deployment and never again. It is generally used for setting up initial contract values.
+
+When the name of variables collide it is referred to as variable shadowing.
+
+The external visibility specifier allows a function to be accessed from other contracts or from an EOA (Externally Owned Account).
+
+External visibility is quite similar to the public visibility for functions. External is better than public if we know that we are only calling the function externally (outside the EVM). Public visibility requires more gas because it can be called externally and internally, which complicates the assembly code.
+
+In Solidity it is perfectly valid to declare two functions with the same name if they have different parameters.
+
+Tuples are not a formal type in Solidity. They are a list of values that can be used as a temporary structure to return values or do assignment destructuring. The data types of the return values in tuples can be different from each other.
+
+Message Calls
+The first message call is the beginning of the transaction.
+Message Calls contain gas, value and calldata.
+
+Accounts 
+In Ethereum, accounts are often distinguished into two types: Externally Owned Accounts and Contract Accounts. The differences between these accounts is largely conceptual as the EVM essentially treats them the same!
+
+Every account on the EVM has a public address and a balance. Contract accounts will also store their bytecode as well as their internal storage data.
+
+When making a call from an EOA to a Contract Account it's important to know things like who is making the call, how much ether they are sending and the function they are intending to invoke with which arguments.
+
+The Solidity language handles the wiring up of the transaction data to the function we have defined on the contract. The language also gives us access to the transaction parameters through globals like msg.sender and msg.value.
+
+An address on the EVM is a 160 bits long, or a 40 character, hexadecimal string.
+
+Receiving Ether
+In the latest versions of Solidity, contracts cannot receive ether by default. In order to receive ether, a contract must specify a payable function.
+
+Self Destruct
+Contracts can destroy themselves by using the SELFDESTRUCT opcode on the EVM! This opcode actually refunds ether in order to incentivize cleaning up the blockchain of unused contracts.
+
+Revert
+In the EVM the main opcode to revert a transaction is REVERT. There are three ways to invoke the REVERT opcode from Solidity are assert, require and revert.
+
+Calldata
+When we want to communicate with a smart contract, we send a transaction from an Externally Owned Account. Inside of that transaction is a data property which is commonly referred to as the "calldata". This call data format is the same for calling solidity functions whether it is in a transaction from an EOA or if its in a message call from one contract to another.
+
+Fallback
+When data is sent to a contract and it doesn't match any of the contract's function 'identifiers' (the first 4 bytes of the hash of the function's signature), the contract's fallback function will be triggered. This means that if you send a random 4-byte value to a contract, it will most likely not match any function and will invoke the fallback function if one exists.
+
+Escrow Smart Contract
+An escrow is an agreement often used when transferring funds in exchange for a good or service. Funds can be held in escrow and a third party can be chosen to "arbitrate" or approve the transfer when the service or good is provided.
+
+We'll have three parties involved in the Escrow:
+Depositor - The payer of the Escrow, makes the initial deposit that will eventually go to the beneficiary.
+Beneficiary - The receiver of the funds. They will provide some service or good to the depositor before the funds are transferred by the arbiter.
+Arbiter - The approver of the transaction. They alone can move the funds when the goods/services have been provided.
+
+There's only one address that should be able to call the approve method: the arbiter. 
+
+This is their role in the escrow transaction, to decide when the funds can be transferred.
+
+Arrays
+Array is a reference type.
+
+Fixed Arrays
+Fixed sized arrays have a set amount of values at compile-time.
+If we store less elements in the array than the fixed size, the rest of the elements will be the default value for the data type (i.e. false for bool and 0 for uint). If you store more elements in the array than the fixed size, we'll get a compile-time TypeError!
+
+Dynamically Sized Arrays
+Dynamically Sized Arrays are arrays in Solidity where the size is unknown at compile-time.
+
+Stack Club
+This StackClub contract will have many members like a club or an organization would. We'll track these members by keeping a list of addresses.
+Members will be added by pushing their address to the top of the list. Members will be removed by popping the most recent one off of the list. A Last-In-First-Out structure, just like a stack!
+
+Structs
+Structs provide Solidity Developers with a way to build custom data types. These data types can have multiple fields of data types.
+
+Mappings
+Mappings are an important data type in Solidity. With a mapping we can take values of one data type and map them to values of another data type.
+
+Mappings allow us to store and retrieve elements quickly with a key. The key points to a location in memory where the value is stored.
+
+The key can be any basic data type in Solidity. It cannot be a reference data type like a struct or an array.
+
+The value, on the other hand, can be any Solidity type. It can be a struct, an array or even another mapping!
+
+Voting Smart Contracts
+When a single person operates many accounts it is known as a Sybil attack. Any system that is setup to handle this is known to be sybil resistant.
+
+Inheritance
+As with many object-oriented languages, Solidity includes inheritance as a feature.
+
+Inheritance means that we can create an object with some values/methods and use it as a base for other objects.
+
+In Solidity, the objects we're referring to are contracts and interfaces. We can write a contract with state variables and functions. Then we can create contracts that inherit those variables and functions. These derived contracts can then choose to add behavior as necessary.
