@@ -2,11 +2,17 @@
 pragma solidity ^0.8.20;
 
 contract Contract {
-    // Declare a public storage variable
-    uint public x;
+    // Public address state variable to store the owner's address
+    address public owner;
 
-    // Constructor that takes a uint argument and stores it in x
-    constructor(uint _x) {
-        x = _x;
+    // Constructor to set the owner as the deployer of the contract
+    constructor() {
+        owner = msg.sender;
+    }
+
+    // Function to receive Ether without calldata
+    receive() external payable {
+        // This function is intentionally left empty
+        // The contract will simply accept the Ether
     }
 }
