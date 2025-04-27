@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+contract Contract {
+    // State variable to store the owner's address
+    address public owner;
+
+    // Payable constructor to require a 1 Ether deposit during deployment
+    constructor() payable {
+        require(msg.value >= 1 ether, "A minimum of 1 Ether is required."); // Ensure at least 1 Ether is sent
+        owner = msg.sender; // Set the deployer as the owner
+    }
+
+    // Function to receive Ether without calldata
+    receive() external payable {}
+
+    // Public function to withdraw all funds from the contract
+    function withdraw() public {
+        require(msg.sender == owner, "Only the contract deployer can withdraw funds."); // Ensure only the owner can call this function
+        require(address(this).balance > 0, "No funds available to withdraw."); // Ensure there are funds to withdraw
+
+        (bool success, ) = owner.call{value: address(this).balance}(""); // Transfer all funds to the owner
+        require(success, "Failed to transfer Ether to the owner."); // Ensure the transfer is successful
+    }
+}
