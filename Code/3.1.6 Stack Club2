@@ -1,0 +1,41 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+contract StackClub {
+    // Dynamic array to store member addresses
+    address[] public members;
+
+    // Constructor that adds the deployer as the first member of the club
+    constructor() {
+        members.push(msg.sender); // Add the deployer's address as the first member
+    }
+
+    // Modifier to check if the caller is an existing member
+    modifier onlyMember() {
+        require(isMember(msg.sender), "Only an existing member can call this function.");
+        _;
+    }
+
+    // External function to add a new member to the club
+    // Only an existing member can add new members
+    function addMember(address newMember) external onlyMember {
+        members.push(newMember);
+    }
+
+    // External function to remove the last member of the club
+    // Only an existing member can call this function
+    function removeLastMember() external onlyMember {
+        require(members.length > 0, "No members to remove."); // Ensure the array is not empty
+        members.pop(); // Remove the last member from the array
+    }
+
+    // Public view function to check if an address is a member
+    function isMember(address member) public view returns (bool) {
+        for (uint i = 0; i < members.length; i++) {
+            if (members[i] == member) {
+                return true; // Return true if the address is found in the array
+            }
+        }
+        return false; // Return false if the address is not found
+    }
+}
