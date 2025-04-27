@@ -1,0 +1,12 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+contract Contract {
+    // Public mapping to store membership status
+    mapping(address => bool) public members;
+
+    // External function to add an address as a member
+    function addMember(address _member) external {
+        members[_member] = true; // Add the address as a member
+    }
+}
