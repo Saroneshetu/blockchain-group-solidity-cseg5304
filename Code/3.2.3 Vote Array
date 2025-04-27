@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+contract Contract {
+    // Enum to define possible voting choices
+    enum Choices { Yes, No, Abstain }
+
+    // Struct to represent a vote
+    struct Vote {
+        Choices choice; // The choice made by the voter
+        address voter;  // The address of the voter
+    }
+
+    // Public storage array to hold all votes
+    Vote[] public votes;
+
+    // Function to create a new vote and push it onto the votes array
+    function createVote(Choices _choice) external {
+        votes.push(Vote({
+            choice: _choice,   // Use the choice passed in as an argument
+            voter: msg.sender  // Use the address of the caller
+        }));
+    }
+}
