@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+contract Contract {
+    // State variables to store the owner's address and the charity's address
+    address public owner;
+    address public charity;
+
+    // Constructor to set the owner and charity addresses
+    constructor(address _charity) {
+        owner = msg.sender; // Set the deployer as the owner
+        charity = _charity; // Set the charity address
+    }
+
+    // Function to receive Ether without calldata
+    receive() external payable {}
+
+    // Function to donate all funds in the contract to the charity
+    function donate() public {
+        require(address(this).balance > 0, "No funds available for donation.");
+        require(charity != address(0), "Charity address must be set.");
+
+        (bool success, ) = charity.call{value: address(this).balance}("");
+        require(success, "Failed to send Ether to charity.");
+    }
+}
