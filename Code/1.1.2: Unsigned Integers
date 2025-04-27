@@ -1,0 +1,14 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+contract Contract {
+    // Public storage variables
+    uint8 public a = 42; // Initial value between 0 and 255
+    uint16 public b = 300; // Value at least 256
+    uint256 public sum;
+
+    // Constructor to initialize the sum
+    constructor() {
+        sum = a + b;
+    }
+}
