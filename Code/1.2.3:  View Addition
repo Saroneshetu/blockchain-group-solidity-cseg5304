@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+contract Contract {
+    // Declare a public storage variable
+    uint public x;
+
+    // Constructor that takes a uint argument and stores it in x
+    constructor(uint _x) {
+        x = _x;
+    }
+
+    // External function to increment the value of x
+    function increment() external {
+        x += 1;
+    }
+
+    // External view function to return the sum of the state variable x and a parameter
+    function add(uint _y) external view returns (uint) {
+        return x + _y;
+    }
+}
