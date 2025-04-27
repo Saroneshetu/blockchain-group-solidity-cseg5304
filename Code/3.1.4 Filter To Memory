@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+contract Contract {
+    // Pure, external function to filter even numbers
+    function filterEven(uint[] memory numbers) external pure returns (uint[] memory) {
+        uint[] memory evenNumbers = new uint[](numbers.length); // Create a new array in memory with the same size
+        uint count = 0; // Counter to track the number of even numbers
+
+        for (uint i = 0; i < numbers.length; i++) {
+            if (numbers[i] % 2 == 0) { // Check if the number is even
+                evenNumbers[count] = numbers[i]; // Add the even number to the new array
+                count++; // Increment the counter
+            }
+        }
+
+        // Resize the array to contain only the even numbers
+        uint[] memory resizedArray = new uint[](count);
+        for (uint j = 0; j < count; j++) {
+            resizedArray[j] = evenNumbers[j];
+        }
+
+        return resizedArray; // Return the resized array
+    }
+}
