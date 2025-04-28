@@ -1,0 +1,36 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+contract Contract {
+    enum Choices { Yes, No, OptionA, OptionB, OptionC } // Example choices
+
+    struct Voter {
+        bool hasVoted; // Indicates whether the voter has cast a vote
+        Choices choice; // Records the choice made by the voter
+    }
+
+    mapping(address => Voter) private voters;
+
+    // External function to cast a vote (can be changed to public for internal use)
+    function createVote(Choices _choice) external {
+        require(!voters[msg.sender].hasVoted, "You can only vote once!");
+        voters[msg.sender] = Voter(true, _choice);
+    }
+
+    // External function to change an existing vote
+    function changeVote(Choices _newChoice) external {
+        require(voters[msg.sender].hasVoted, "No existing vote found to change!");
+        voters[msg.sender].choice = _newChoice; // Update the voter's choice
+    }
+
+    // External view function to check if an address has cast a vote
+    function hasVoted(address _voter) external view returns (bool) {
+        return voters[_voter].hasVoted;
+    }
+
+    // External view function to find the choice of an address
+    function findChoice(address _voter) external view returns (Choices) {
+        require(voters[_voter].hasVoted, "The address has not voted yet!");
+        return voters[_voter].choice;
+    }
+}
