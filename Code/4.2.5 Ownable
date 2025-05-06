@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: MIT
+pragma solidity 0.8.20;
+
+contract Ownable {
+    // State variable to store the owner's address
+    address public owner;
+
+    // Constructor to set the deployer as the owner
+    constructor() {
+        owner = msg.sender;
+    }
+
+    // Modifier to restrict access to the owner
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Ownable: Caller is not the owner");
+        _;
+    }
+}
