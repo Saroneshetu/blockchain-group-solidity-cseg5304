@@ -1,0 +1,31 @@
+// SPDX-License-Identifier: MIT
+pragma solidity 0.8.20;
+
+import "./Hero.sol";
+import "./Enemy.sol"; // Assuming Enemy.sol defines the Enemy contract
+
+// Mage contract inheriting from Hero
+contract Mage is Hero {
+    constructor() Hero(50) {
+        // Sets initial health of Mage to 50
+    }
+
+    // Override the attack function
+    function attack(Enemy enemy) public override {
+        // Invoke the takeAttack function with the Spell attack type
+        enemy.takeAttack(AttackTypes.Spell);
+    }
+}
+
+// Warrior contract inheriting from Hero
+contract Warrior is Hero {
+    constructor() Hero(200) {
+        // Sets initial health of Warrior to 200
+    }
+
+    // Override the attack function
+    function attack(Enemy enemy) public override {
+        // Invoke the takeAttack function with the Brawl attack type
+        enemy.takeAttack(AttackTypes.Brawl);
+    }
+}
