@@ -1,0 +1,14 @@
+// SPDX-License-Identifier: MIT
+pragma solidity 0.8.20;
+
+import "./Hero.sol";
+
+// Mage contract inheriting from Hero
+contract Mage is Hero {
+    // Additional functionality or properties specific to Mage can be added here
+}
+
+// Warrior contract inheriting from Hero
+contract Warrior is Hero {
+    // Additional functionality or properties specific to Warrior can be added here
+}
