@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: MIT
+pragma solidity 0.8.20;
+
+import "./Hero.sol";
+
+// Mage contract inheriting from Hero
+contract Mage is Hero {
+    constructor() Hero(50) {
+        // Sets initial health of Mage to 50
+    }
+}
+
+// Warrior contract inheriting from Hero
+contract Warrior is Hero {
+    constructor() Hero(200) {
+        // Sets initial health of Warrior to 200
+    }
+}
