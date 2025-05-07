@@ -17,7 +17,7 @@
 
 | Folder       | Description |
 |--------------|-------------|
-| `Notes/`     | Notes from each lesson |
+| `Notes/`     | Notes |
 | `Code/`      | Solidity smart contracts |
 | `Screenshots/` | Screenshots of completed tasks |
 | `Resources/` | Extra links and materials |
