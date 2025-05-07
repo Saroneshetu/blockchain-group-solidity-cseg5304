@@ -4,8 +4,8 @@
 1. Edom Gurmecha     UGR/23444/13 - [GitHub Username]
 2. Gemechis Biru     UGR/22621/13 - [GitHub Username]
 3. Gifti Ashenafi    UGR/22567/13 - [GitHub Username]
-4. Samanta Casale    UGR/23273/13 - [GitHub Username]
-5. Saron Eshetu      UGR/23712/13 - [GitHub Username]
+4. Samanta Casale    UGR/23273/13 - SAMCAS20
+5. Saron Eshetu      UGR/23712/13 - saroneshetu
 
 ## 📚 Course Selected
 **Alchemy University – Learn Solidity**  
