@@ -22,12 +22,3 @@
 | `Screenshots/` | Screenshots of completed tasks |
 | `Resources/` | Extra links and materials |
 
----
-
-## ✅ Progress Tracker
-
-| Lesson               | Status     | Contributors |
-|----------------------|------------|--------------|
-| Intro to Solidity     | ✅ Done     | @yourusername |
-| Variables & Functions | ✅ Done     | @teammate     |
-| ...                   | 🔄 In Progress | ...        |
